@@ -1,0 +1,25 @@
+:root   {
+    --primaryColor: #371d5c;
+    --secondaryColor: #f4c371;
+    --tertiaryColor: #923267;
+    --fourthColor: #260e42;
+    --additionalColor: #a9dbce;
+    --accentColor: #e96aa1;
+    --accentColorOpague:rgba(233,106,161,0.8);
+    --secondYellow: #fec260;
+}
+
+*   {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body    {
+
+
+    font-family: 'Cairo', Helvetica, Arial, sans-serif;
+}
+.logo   {
+    z-index: 1;
+}
