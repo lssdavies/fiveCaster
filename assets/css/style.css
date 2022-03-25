@@ -1,25 +1,42 @@
-:root   {
-    --primaryColor: #371d5c;
-    --secondaryColor: #f4c371;
-    --tertiaryColor: #923267;
-    --fourthColor: #260e42;
-    --additionalColor: #a9dbce;
-    --accentColor: #e96aa1;
-    --accentColorOpague:rgba(233,106,161,0.8);
-    --secondYellow: #fec260;
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Roboto:wght@300&family=Shalimar&display=swap");
+
+:root {
+  --primaryColor: #371d5c;
+  --secondaryColor: #f4c371;
+  --tertiaryColor: #923267;
+  --fourthColor: #260e42;
+  --additionalColor: #6cd7d9;
+  --accentColor: #e96aa1;
+  --accentColorOpague: rgba(233, 106, 161, 0.8);
+  --secondYellow: #fec260;
 }
 
-*   {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto','Cairo', Helvetica, Arial, sans-serif;
+}
+.logo {
+  z-index: 1;
+  width: 200px;
+  height: auto;
+  margin: .5rem;
+}
+h1, h2, h3  {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    font-weight: 300;
+    color:var(--primaryColor)
+}
+span{
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: lighter;
+    font-style: italic;
+    color: var(--additionalColor);
 }
 
-body    {
-
-
-    font-family: 'Cairo', Helvetica, Arial, sans-serif;
-}
-.logo   {
-    z-index: 1;
-}
