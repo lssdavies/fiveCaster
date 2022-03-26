@@ -39,4 +39,17 @@ span{
     font-style: italic;
     color: var(--additionalColor);
 }
+.toggle {
+  /* display: none; */
+}
+.visible  {
+  display: visible;
+}
+.cityName {
+  color: var(--tertiaryColor);
+  background-color: var(--additionalColor);
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
 
