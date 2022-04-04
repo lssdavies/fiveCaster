@@ -54,8 +54,7 @@ function getWeather() {
 
 //api fetch forecast data
 function getForecast() {
-  //verifying data is being transfered between both functions
-  // event.preventDefault();
+  //event.preventDefault();
   console.log("clicked");
   // console.log(cityHistory);
   // console.log(weatherInfo.data);
@@ -126,7 +125,7 @@ function recentSearches(cl) {
 cityHistory.forEach((location) => {
   console.log(historyList)
   //using jqurey to clear old buttons and only disply buttons in the current array.
-  $(historyButton).remove();
+  historyButton.innerHTML="";
   //appending to button
   historyButton.textContent = location;
   //adding existing bootstrap styling
