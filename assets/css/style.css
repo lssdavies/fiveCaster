@@ -79,6 +79,15 @@ span {
   background-color: var(--tertiaryColor);
   border: 1px solid var(--additionalColor);
 }
+.forecast {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.forecastData {
+  display: flex;
+  flex-direction: column;
+}
 
 @media screen and (max-width: 860px) {
   header,
