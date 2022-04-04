@@ -87,6 +87,9 @@ span {
 .forecastData {
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--primaryColor);
+  border-radius: 3px;
+  background-color: var(--additionalColor);
 }
 
 @media screen and (max-width: 860px) {
