@@ -44,7 +44,7 @@ function getWeather() {
           displayWeather();
           getForecast();
           //clearing form input field
-          document.getElementById("floatingInput").value = ""; 
+          document.getElementById("floatingInput").value = "";
         });
       }
     });
@@ -57,19 +57,18 @@ function getForecast() {
   var url2 =
     forecastURL + lat + "&lon=" + long + "&cnt=5&units=imperial&appid=" + key;
   //console.log(url2);
-  fetch(url2)
-  .then(function (response) {
-      //error handling not needed since valid data is being passed from getWeather()
-      return response.json().then(function (data) {
-        //passing data into weather info for storage
-        forecastInfo = { data };
-        //Pulling out 5 day forecast
-        forecast = forecastInfo.data.list;
-        //console.log(forecast);
-        //building forcast cards
-        displayForecast(forecast);
-      })
+  fetch(url2).then(function (response) {
+    //error handling not needed since valid data is being passed from getWeather()
+    return response.json().then(function (data) {
+      //passing data into weather info for storage
+      forecastInfo = { data };
+      //Pulling out 5 day forecast
+      forecast = forecastInfo.data.list;
+      //console.log(forecast);
+      //building forcast cards
+      displayForecast(forecast);
     });
+  });
 }
 
 function displayWeather() {
@@ -96,18 +95,18 @@ function displayWeather() {
     cityHistory.push(city);
     storeCities();
     recentSearches(city);
-    console.log;cityHistory;
+    console.log;
+    cityHistory;
   } else {
-    console.log('city already exist in your search history!')
+    console.log("city already exist in your search history!");
   }
-  
 }
 
 function displayForecast(fc) {
   //console.log(fc);
   let forecastCardHolder = document.getElementById("forecastCardHolder");
   let forecastCard = document.createElement("div");
-  
+
   //for loop to create 5 day forecast cards
   for (let i = 0; i < fc.length; i++) {
     forecastCardHolder.innerHTML = "";
@@ -174,51 +173,49 @@ function recentSearches(cl) {
   let historyButton = document.createElement("button");
   //using foreach to loop through current city array and generate button
   cityHistory.forEach((location) => {
-  //clear old buttons and only display buttons in the current array.
-  historyButton.innerHTML="";
-  //appending to button
-  historyButton.textContent = location;
-  //adding existing bootstrap styling
-  historyButton.classList.add("historyBtn");
-  historyList.appendChild(historyButton);
-  history.appendChild(historyList);
+    //clear old buttons and only display buttons in the current array.
+    historyButton.innerHTML = "";
+    //appending to button
+    historyButton.textContent = location;
+    //adding existing bootstrap styling
+    historyButton.classList.add("historyBtn");
+    historyList.appendChild(historyButton);
+    history.appendChild(historyList);
 
-  historyButton.addEventListener("click", function () {
-    //updating form input with recent search city before calling getWeather() which will use that value in fetch call
-    document.getElementById("floatingInput").value = location;
-    getWeather();
-    // console.log(cityHistory);
+    historyButton.addEventListener("click", function () {
+      //updating form input with recent search city before calling getWeather() which will use that value in fetch call
+      document.getElementById("floatingInput").value = location;
+      getWeather();
+      // console.log(cityHistory);
+    });
   });
-})
 }
 
 //storing search history using local storage
-function storeCities()  {
+function storeCities() {
   localStorage.setItem("searches", JSON.stringify(cityHistory));
 }
 
 function loadSearches() {
   let searches = localStorage.getItem("searches");
   // console.log(searches);
-  if (!searches)  {
+  if (!searches) {
     cityHistory = [];
     console.log("empty");
-  } else  {
-    let searchHistory = [];
+  } else {
     searchedCities = JSON.parse(searches);
     console.log(typeof searchedCities);
     //the Json item retrieved from local storage comes back as an object so used Object.values to create an array of values to pass to recentSearches()
-    searchHistory = Object.values(searchedCities);
-    console.log(searchHistory);
-    searchHistory.forEach((element) => {
+    cityHistory = Object.values(searchedCities);
+    console.log(cityHistory);
+    cityHistory.forEach((element) => {
       searchedCity = element;
-      //console.log(searchedCity);
+      // console.log(searchedCity);
       recentSearches(searchedCity);
     });
-    //local storage is working having issues loading button on pagei am able to pass the the argument to the function but buttons are not being generated?
+    //local storage is working having issues loading button on page i am able to pass the the argument to the function but buttons are not being generated correctly. All button have text.content of the last city in array
   }
 }
 
-
 searchBtn.addEventListener("click", getWeather);
-loadSearches();
+//loadSearches();
