@@ -80,7 +80,7 @@ function displayWeather() {
   let windspeed = weatherInfo.data.wind.speed;
   let currentDate = new Date().toISOString().slice(0, 10);
   let iconLink =
-    "<img src='http://openweathermap.org/img/w/" + icon + ".png' />";
+    "<img src='https://openweathermap.org/img/w/" + icon + ".png' />";
   // Generating button
   card.classList = "visible";
   cityName.classList = "cityName";
@@ -112,7 +112,7 @@ function displayForecast(fc) {
     forecastCardHolder.innerHTML = "";
     let forecastIcon = fc[i].weather[0].icon;
     let forecastIconLink =
-      "<img src='http://openweathermap.org/img/w/" + forecastIcon + ".png' />";
+      "<img src='https://openweathermap.org/img/w/" + forecastIcon + ".png' />";
     let fcDate = fc[i].dt_txt;
     let fcTemp = fc[i].main.temp;
     let fcHum = fc[i].main.humidity;
