@@ -67,7 +67,7 @@ function getForecast() {
     return response.json().then(function (data) {
       //passing data into weather info for storage
       forecastInfo = { data };
-      console.log(forecastInfo)
+      console.log(forecastInfo);
       //Pulling out 5 day forecast
       forecast = forecastInfo.data.daily;
       //console.log(forecast);
@@ -84,13 +84,13 @@ function displayWeather() {
   let icon = weatherInfo.data.weather[0].icon;
   let humidity = weatherInfo.data.main.humidity;
   let windspeed = weatherInfo.data.wind.speed;
-  let currentDate = new Date().toISOString().slice(0, 10);
+  let currentDate = new Date().toLocaleDateString("en-US");
   let iconLink =
     "<img src='https://openweathermap.org/img/w/" + icon + ".png' />";
   // Generating button
   card.classList = "visible";
   cityName.classList = "cityName";
-  cityName.innerHTML = city + iconLink + " (" + currentDate + ")";
+  cityName.innerHTML = city + iconLink + " " + currentDate;
   temp.innerHTML =
     "<span class='info'>Temp: " + Math.round(temperature) + " &#8457</span>";
   hum.innerHTML = "<span class='info'>humidity: " + Math.round(humidity) + "%";
@@ -120,7 +120,7 @@ function displayForecast(fc) {
     let forecastIconLink =
       "<img src='https://openweathermap.org/img/w/" + forecastIcon + ".png' />";
     let fcDate = fc[i].dt;
-    let convertedFcDate = new Date(fcDate * 1000)
+    let convertedFcDate = new Date(fcDate * 1000);
     let fcTemp = fc[i].temp.day;
     let fcHum = fc[i].humidity;
     let fcWind = fc[i].wind_speed;
