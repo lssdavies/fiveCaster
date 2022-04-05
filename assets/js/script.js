@@ -96,6 +96,7 @@ function displayWeather() {
     cityHistory.push(city);
     storeCities();
     recentSearches(city);
+    console.log;cityHistory;
   } else {
     console.log('city already exist in your search history!')
   }
@@ -167,6 +168,7 @@ function displayForecast(fc) {
 }
 
 function recentSearches(cl) {
+  console.log(cl);
   let history = document.getElementById("recent");
   let historyList = document.createElement("div");
   let historyButton = document.createElement("button");
@@ -185,7 +187,7 @@ function recentSearches(cl) {
     //updating form input with recent search city before calling getWeather() which will use that value in fetch call
     document.getElementById("floatingInput").value = location;
     getWeather();
-    console.log(cityHistory);
+    // console.log(cityHistory);
   });
 })
 }
@@ -197,12 +199,23 @@ function storeCities()  {
 
 function loadSearches() {
   let searches = localStorage.getItem("searches");
+  // console.log(searches);
   if (!searches)  {
     cityHistory = [];
+    console.log("empty");
   } else  {
-    cityHistory = JSON.parse(searches);
-    console.log(cityHistory);
-    recentSearches(cityHistory);
+    let searchHistory = [];
+    searchedCities = JSON.parse(searches);
+    console.log(typeof searchedCities);
+    //the Json item retrieved from local storage comes back as an object so used Object.values to create an array of values to pass to recentSearches()
+    searchHistory = Object.values(searchedCities);
+    console.log(searchHistory);
+    searchHistory.forEach((element) => {
+      searchedCity = element;
+      //console.log(searchedCity);
+      recentSearches(searchedCity);
+    });
+    //local storage is working having issues loading button on pagei am able to pass the the argument to the function but buttons are not being generated?
   }
 }
 
