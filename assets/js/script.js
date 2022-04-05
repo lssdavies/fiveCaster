@@ -4,6 +4,7 @@ const key = "61195d63fc2d44b9b418583d71cc1326";
 const apiURL = "https://api.openweathermap.org/data/2.5/weather?q=";
 // 5 day forecast url will need to append lat, long and key
 const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
+let currentCity = "";
 let forecast = [];
 let cityHistory = [];
 let lat = ""; //38.4666 - 121.3177;
@@ -42,6 +43,8 @@ function getWeather() {
           //all data is from api call is being stored accordingly but getting Cors error on second call
           displayWeather();
           getForecast();
+          //clearing form input field
+          document.getElementById("floatingInput").value = ""; 
         });
       }
     });
@@ -53,16 +56,16 @@ function getForecast() {
   //fetch forecast
   var url2 =
     forecastURL + lat + "&lon=" + long + "&cnt=5&units=imperial&appid=" + key;
-  console.log(url2);
+  //console.log(url2);
   fetch(url2)
   .then(function (response) {
       //error handling not needed since valid data is being passed from getWeather()
       return response.json().then(function (data) {
         //passing data into weather info for storage
         forecastInfo = { data };
-        //console.log(forecastInfo.data);
+        //Pulling out 5 day forecast
         forecast = forecastInfo.data.list;
-        // console.log(forecast);
+        //console.log(forecast);
         //building forcast cards
         displayForecast(forecast);
       })
@@ -91,6 +94,7 @@ function displayWeather() {
   let index = cityHistory.indexOf(city);
   if (index === -1) {
     cityHistory.push(city);
+    storeCities();
     recentSearches(city);
   } else {
     console.log('city already exist in your search history!')
@@ -99,16 +103,13 @@ function displayWeather() {
 }
 
 function displayForecast(fc) {
-  console.log(fc);
-  let forecastDisplay = document.getElementById("forecast");
-  let forecastCardHolder = document.createElement("div");
+  //console.log(fc);
+  let forecastCardHolder = document.getElementById("forecastCardHolder");
   let forecastCard = document.createElement("div");
-  let forecastList = document.createElement("div");
   
-
   //for loop to create 5 day forecast cards
   for (let i = 0; i < fc.length; i++) {
-    forecastDisplay.innerHTML = "";
+    forecastCardHolder.innerHTML = "";
     let forecastIcon = fc[i].weather[0].icon;
     let forecastIconLink =
       "<img src='http://openweathermap.org/img/w/" + forecastIcon + ".png' />";
@@ -116,46 +117,52 @@ function displayForecast(fc) {
     let fcTemp = fc[i].main.temp;
     let fcHum = fc[i].main.humidity;
     let fcWind = fc[i].wind.speed;
-    // //Ul
-    // let forecastListUl = document.createElement("ul");
-    forecastList.classList.add("forecastData");
-    forecastCard.appendChild(forecastList);
+    //console.log(fcDate);
+    //Card
+    forecastCardHolder.appendChild(forecastCard);
+    forecastCardHolder.classList.add("forecastCardHolder");
+    forecastCard.classList.add("forecastCard");
+
+    // Create div to hold card data;
+    let forecastInfo = document.createElement("div");
+    forecastInfo.classList.add("forecastData");
+    forecastCard.appendChild(forecastInfo);
+
     // Date
-    let ForecastDate = document.createElement("div");
+    let forecastDate = document.createElement("p");
     // ForecastDate.classList.add("forecastData");
-    ForecastDate.textContent.innerHTML =
-      "<span class='info'>" + fcDate + "</span>";
-    forecastList.appendChild(ForecastDate);
+    forecastDate.innerHTML =
+      "<span class='info'>" + fcDate.slice(0, 10) + "</span>";
+    forecastInfo.appendChild(forecastDate);
 
     //icons
-    let forecastIconImg = document.createElement("div");
+    let forecastIconImg = document.createElement("p");
     // forecastIconImg.classList.add("forecastData");
     forecastIconImg.innerHTML = forecastIconLink;
-    forecastList.appendChild(forecastIconImg);
+    forecastInfo.appendChild(forecastIconImg);
 
     // temp
-    let forecastTemp = document.createElement("div");
+    let forecastTemp = document.createElement("p");
     // forecastTemp.classList.add("forecastData");
     forecastTemp.innerHTML =
       "<span class='info'>Temp: " + Math.round(fcTemp) + " &#8457</span>";
-    forecastList.appendChild(forecastTemp);
+    forecastInfo.appendChild(forecastTemp);
 
     // humidity
-    let forecastHum = document.createElement("div");
+    let forecastHum = document.createElement("p");
     // forecastHum.classList.add("forecastData");
     forecastHum.innerHTML =
       "<span class='info'>Humidity: " + Math.round(fcHum) + "%</span>";
-    forecastList.appendChild(forecastHum);
+    forecastInfo.appendChild(forecastHum);
     //Wind
-    let ForecastWind = document.createElement("div");
+    let ForecastWind = document.createElement("p");
     // ForecastWind.classList.add("forecastData");
     ForecastWind.innerHTML =
       "<span class='info'>Wind: " + Math.round(fcWind) + " mph";
-    forecastList.appendChild(ForecastWind);
+    forecastInfo.appendChild(ForecastWind);
 
-    forecastCard.classList.add("forecastCard");
-    forecastCardHolder.appendChild(forecastList);
-    forecastDisplay.appendChild(forecastCardHolder);
+    // let cardEnd = document.createElement("div");
+    // forecastInfo.appendChild(cardEnd);
   }
 }
 
@@ -173,7 +180,32 @@ function recentSearches(cl) {
   historyButton.classList.add("historyBtn");
   historyList.appendChild(historyButton);
   history.appendChild(historyList);
+
+  historyButton.addEventListener("click", function () {
+    //updating form input with recent search city before calling getWeather() which will use that value in fetch call
+    document.getElementById("floatingInput").value = location;
+    getWeather();
+    console.log(cityHistory);
+  });
 })
-  historyButton.addEventListener("click", getWeather);
 }
+
+//storing search history using local storage
+function storeCities()  {
+  localStorage.setItem("searches", JSON.stringify(cityHistory));
+}
+
+function loadSearches() {
+  let searches = localStorage.getItem("searches");
+  if (!searches)  {
+    cityHistory = [];
+  } else  {
+    cityHistory = JSON.parse(searches);
+    console.log(cityHistory);
+    recentSearches(cityHistory);
+  }
+}
+
+
 searchBtn.addEventListener("click", getWeather);
+loadSearches();
