@@ -67,9 +67,10 @@ function getForecast() {
     return response.json().then(function (data) {
       //passing data into weather info for storage
       forecastInfo = { data };
+      console.log(forecastInfo)
       //Pulling out 5 day forecast
       forecast = forecastInfo.data.daily;
-      console.log(forecast);
+      //console.log(forecast);
       //building forcast cards
       displayForecast(forecast);
     });
