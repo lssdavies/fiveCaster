@@ -67,7 +67,7 @@ function getForecast() {
     return response.json().then(function (data) {
       //passing data into weather info for storage
       forecastInfo = { data };
-      console.log(forecastInfo);
+      //console.log(forecastInfo);
       //Pulling out 5 day forecast
       forecast = forecastInfo.data.daily;
       //console.log(forecast);
@@ -101,8 +101,6 @@ function displayWeather() {
     cityHistory.push(city);
     storeCities();
     recentSearches(city);
-    console.log;
-    cityHistory;
   } else {
     console.log("city already exist in your search history!");
   }
@@ -176,7 +174,7 @@ function displayForecast(fc) {
 }
 
 function recentSearches(cl) {
-  console.log(cl);
+  //console.log(cl);
   let history = document.getElementById("recent");
   let historyList = document.createElement("div");
   let historyButton = document.createElement("button");
@@ -210,13 +208,13 @@ function loadSearches() {
   // console.log(searches);
   if (!searches) {
     cityHistory = [];
-    console.log("empty");
+    //console.log("empty");
   } else {
     searchedCities = JSON.parse(searches);
-    console.log(typeof searchedCities);
+    //console.log(typeof searchedCities);
     //the Json item retrieved from local storage comes back as an object so used Object.values to create an array of values to pass to recentSearches()
     cityHistory = Object.values(searchedCities);
-    console.log(cityHistory);
+    //console.log(cityHistory);
     cityHistory.forEach((element) => {
       searchedCity = element;
       // console.log(searchedCity);
