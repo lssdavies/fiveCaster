@@ -3,7 +3,7 @@ const key = "61195d63fc2d44b9b418583d71cc1326";
 //apiURL will need to append currentCity anf key
 const apiURL = "https://api.openweathermap.org/data/2.5/weather?q=";
 // 5 day forecast url will need to append lat, long and key
-const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
+const forecastURL = "https://api.openweathermap.org/data/2.5/onecall?lat=";
 let currentCity = "";
 let forecast = [];
 let cityHistory = [];
@@ -55,16 +55,21 @@ function getWeather() {
 function getForecast() {
   //fetch forecast
   var url2 =
-    forecastURL + lat + "&lon=" + long + "&cnt=5&units=imperial&appid=" + key;
-  //console.log(url2);
+    forecastURL +
+    lat +
+    "&lon=" +
+    long +
+    "&cnt=5&units=imperial&exclude=minutely,hourly&appid=" +
+    key;
+  console.log(url2);
   fetch(url2).then(function (response) {
     //error handling not needed since valid data is being passed from getWeather()
     return response.json().then(function (data) {
       //passing data into weather info for storage
       forecastInfo = { data };
       //Pulling out 5 day forecast
-      forecast = forecastInfo.data.list;
-      //console.log(forecast);
+      forecast = forecastInfo.data.daily;
+      console.log(forecast);
       //building forcast cards
       displayForecast(forecast);
     });
@@ -107,16 +112,17 @@ function displayForecast(fc) {
   let forecastCardHolder = document.getElementById("forecastCardHolder");
   let forecastCard = document.createElement("div");
 
-  //for loop to create 5 day forecast cards
-  for (let i = 0; i < fc.length; i++) {
+  //for loop to create 5 day forecast cards starting the day after current weather
+  for (let i = 1; i < 6; i++) {
     forecastCardHolder.innerHTML = "";
     let forecastIcon = fc[i].weather[0].icon;
     let forecastIconLink =
       "<img src='https://openweathermap.org/img/w/" + forecastIcon + ".png' />";
-    let fcDate = fc[i].dt_txt;
-    let fcTemp = fc[i].main.temp;
-    let fcHum = fc[i].main.humidity;
-    let fcWind = fc[i].wind.speed;
+    let fcDate = fc[i].dt;
+    let convertedFcDate = new Date(fcDate * 1000)
+    let fcTemp = fc[i].temp.day;
+    let fcHum = fc[i].humidity;
+    let fcWind = fc[i].wind_speed;
     //console.log(fcDate);
     //Card
     forecastCardHolder.appendChild(forecastCard);
@@ -132,7 +138,9 @@ function displayForecast(fc) {
     let forecastDate = document.createElement("p");
     // ForecastDate.classList.add("forecastData");
     forecastDate.innerHTML =
-      "<span class='info'>" + fcDate.slice(0, 10) + "</span>";
+      "<span class='info'>" +
+      convertedFcDate.toLocaleDateString("en-US") +
+      "</span>";
     forecastInfo.appendChild(forecastDate);
 
     //icons

@@ -81,9 +81,8 @@ span {
 }
 .forecastCardHolder {
   display: flex;
-   align-items: center;
+  align-items: center;
   justify-content: flex-start;
-
 }
 .forecastCard {
   display: flex;
@@ -109,5 +108,16 @@ span {
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+}
+@media screen and (max-width: 768px) {
+  .row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .forecastCardHolder {
+    justify-content: center;
   }
 }
